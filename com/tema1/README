@@ -1,0 +1,54 @@
+Patrascoiu Ion - Radu, 322 CD
+
+    In implementarea problemei am folosit o clasa abstracta de baza "Player",
+din care voi extinde clasa "BasePlayer", care la randul ei, va fi clasa parinte
+pentru "GreedyPlayer" si "BribedPlayer", asta pentru ca in anumite situatii
+jocul lor se reduce la clasa de baza. Pentru crearea jucatorilor am folosit
+StrategyFactory, care, dupa cum ii spune si numele, este un factory care
+primeste un String si returneaza jucatorul potrivit.
+    Clasa "MoneyCalculator" calculeaza bonusurile King si Queen pentru fiecare
+jucator in parte, "PlayerComparator" compara 2 jucatori dupa bani, "Game", in
+care, se desfasoara jocul propriu-zis.
+    In "BasePlayer" se implementeaza metodele:
+     - "playAsTrader" -> prin care joaca rolul de comercinat; se va completa
+     sacul, se vor verifica conditiile de bani si ce fel de bunuri contine
+     sacul si in functie de acestea, va lua sau va primi penalty, urmand sa
+     puna pe taraba bunurile necofiscare.
+     - "playAsSheriff" -> prin care joaca rolul de serif; se verifica banii si
+     se inspecteaza bunurile din sacul comerciantului.
+     - "compare" -> compara  bunuri dupa cele 3 criterii din enunt;
+     - "sortHand" -> sorteaza cele 10 carti utilizand "compare";
+     - "completeBag" -> completeaza sacul utilizand "sortHand";
+     - "getMaxByProfit" -> returneza bunul cu cel mai mare profit;
+     - "inspectBag" -> se inspecteaza sacul unui player in functie de strategia
+     acestuia si se adauga/scade penalty;
+
+     In "GreedyPlayer" se adauga conditia de runda para la metodele
+"completeBag" si "playAsTrader". In rest, implementarea este asemanatoare cu
+cea din clasa parinte.
+
+    In "BribedPlayer" se implementeaza metoda "getBribe", care calculeza mita
+ce trebuie data, in functie de numarul de bunuri ilegale din sac. "completeBag"
+va completa sacul in functie de profitul bunurilor ilegale, iar daca nu vor
+exista se va juca strategia de baza. In rest, implementarea este asemanatoare,
+diferenta constand in conditii care trebuie puse.
+
+    Flow-ul implementarii mele merge cam asa:
+    - se primesc argumentele;
+    - se intra in clasa "Game" si se da start la joc;
+    - se creaza lista de jucatori si se seteaza strategiile la fiecare;
+    - se deruleaza fiecare subrunda a unei runde, unde la inceput se da remove
+    la bag si la hand;
+    - se seteaza functiile pentru fiecare jucator, se compleaza mana si se joaca
+    ca serif/comerciant;
+    - comerciantul va adauga bunurile in sac in functie de criteriile
+    strategiei, va da sacul la verificare si va primii/da penalty, urmand
+    sa puna bunurile ramase pe taraba;
+    - seriful va cotrola comerciantii, in functie de strategie comerciantului
+    si va primii/da penalty, in functie de verificarea pe care o face;
+    - la sfarsitul jocului se tranforma bunurile ilegale in legale, se adauga
+    bonului pe acestea, se calculeaza King si Queen si se adauga profitul pe
+    fiecare bun in parte;
+    - se sorteaza descrescator jucatorii in functie de bani si se afiseaza
+    la stdout pozitia, strategia si banii pentru fiecare, astfel se termina
+    jocul.
